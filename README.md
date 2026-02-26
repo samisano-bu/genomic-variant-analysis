@@ -20,7 +20,7 @@ To extract, parse, summarize, and visualize pathogenic variants from the ClinVar
 
 ## Directory Structure
 
-Your project is organized like a professional bioinformatics pipeline:
+This project is organized like a professional bioinformatics pipeline:
 
 ```
 genomic-variant-analysis/
