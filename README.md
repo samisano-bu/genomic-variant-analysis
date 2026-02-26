@@ -141,21 +141,6 @@ Rscript scripts/annotate_variants.R
 
 ---
 
-## Example Project Walkthrough for Interview
-
-> "This pipeline demonstrates my fluency bridging Unix, Python, and R to perform real-world genetics analysis. I start with raw ClinVar VCF data, filter for pathogenic variants using shell scripting, parse and structure the filtered output with pandas, and then conduct annotation, summarization, and visualization in R. Output tables and figures are organized for quick review, and the modular workflow is ready for scale, automation, or deeper statistical analysis. This is the kind of reproducible, robust pipeline used in modern genomics and bioinformatics."
-
----
-
-## Best Practices
-
-- No large or sensitive data in repo; all users must download raw input files.
-- Scripts are modular and documented for each step.
-- Directory structure ensures clarity and reproducibility.
-- Results are versioned and easy to showcase.
-
----
-
 ## Contact
 
 - Sean Amisano
