@@ -1,0 +1,41 @@
+# Ignore large or raw data files
+data/raw/*
+data/processed/*
+!.gitkeep
+
+# Don't ignore a README placeholder in data/raw if present
+!data/raw/README*
+!data/raw/readme*
+
+# Results: optional, usually keep tables/figures
+# results/tables/*
+# results/figures/*
+
+# Jupyter/IPython
+.ipynb_checkpoints/
+*.ipynb
+
+# Python cache/binaries
+__pycache__/
+*.pyc
+*.pyo
+
+# R temporary and history files
+.Rhistory
+.RData
+.Rproj.user/
+
+# OS junk files
+.DS_Store
+Thumbs.db
+
+# VS Code and editor-specific files
+.vscode/
+*.swp
+*.swo
+
+# Environment files (keep .env.example, but not .env with secrets)
+.env
+
+# Mac OS system folder
+.DS_Store
