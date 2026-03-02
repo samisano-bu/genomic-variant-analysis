@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+# 01_preprocess.sh — Download and preprocess ClinVar VCF for pathogenic variant analysis.
+# Usage: bash scripts/01_preprocess.sh
+set -euo pipefail
+# ── Paths ────────────────────────────────────────────────────────────────────
+RAW_DIR="data/raw"
+VCF_GZ="${RAW_DIR}/clinvar.vcf.gz"
+VCF="${RAW_DIR}/clinvar.vcf"
+PATHOGENIC_VCF="${RAW_DIR}/pathogenic_variants.vcf"
+VCF_URL="https://ftp.ncbi.nlm.nih.gov/pub/clinvar/vcf_GRCh38/clinvar.vcf.gz"
+mkdir -p "${RAW_DIR}"
+# ── Download ──────────────────────────────────────────────────────────────────
+if [ ! -f "${VCF}" ]; then
+    if [ ! -f "${VCF_GZ}" ]; then
+        echo "[1/3] Downloading ClinVar GRCh38 VCF from NCBI..."
+        curl -L --progress-bar -o "${VCF_GZ}" "${VCF_URL}"
+    else
+        echo "[1/3] Compressed VCF already present, skipping download."
+    fi
+    echo "[2/3] Decompressing ${VCF_GZ}..."
+    gunzip "${VCF_GZ}"
+else
+    echo "[1/3] VCF already present, skipping download."
+    echo "[2/3] VCF already decompressed, skipping gunzip."
+fi
+# ── Filter for pathogenic variants ───────────────────────────────────────────
+echo "[3/3] Filtering for pathogenic variants..."
+grep '^#' "${VCF}"                 >  "${PATHOGENIC_VCF}"
+grep 'CLNSIG=Pathogenic'  "${VCF}" >> "${PATHOGENIC_VCF}"
+# ── Summary statistics ────────────────────────────────────────────────────────
+echo ""
+echo "════════════════════════════════════════════"
+echo "  Preprocessing Summary"
+echo "════════════════════════════════════════════"
+HEADER_LINES=$(grep -c '^#' "${PATHOGENIC_VCF}")
+TOTAL_VARIANTS=$(grep -cv '^#' "${PATHOGENIC_VCF}")
+echo "  Header lines   : ${HEADER_LINES}"
+echo "  Total pathogenic variants: ${TOTAL_VARIANTS}"
+echo ""
+echo "  Top 5 chromosomes by variant count:"
+grep -v '^#' "${PATHOGENIC_VCF}" \
+    | cut -f1 \
+    | sort \
+    | uniq -c \
+    | sort -rn \
+    | head -5 \
+    | awk '{printf "    %-6s %s\n", $2, $1}'
+echo "════════════════════════════════════════════"
+echo "Done. Output: ${PATHOGENIC_VCF}"
