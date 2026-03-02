@@ -1,0 +1,14 @@
+# install_r_packages.R — Install R dependencies for the analysis pipeline.
+# Run once before executing scripts/03_analyze_variants.R:
+#   Rscript install_r_packages.R
+pkgs <- c("tidyverse", "viridisLite")
+install_if_missing <- function(pkg) {
+  if (!requireNamespace(pkg, quietly = TRUE)) {
+    message("Installing: ", pkg)
+    install.packages(pkg, repos = "https://cloud.r-project.org")
+  } else {
+    message("Already installed: ", pkg)
+  }
+}
+invisible(lapply(pkgs, install_if_missing))
+message("All R dependencies are ready.")
