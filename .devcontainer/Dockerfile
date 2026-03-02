@@ -1,8 +1,14 @@
 FROM mcr.microsoft.com/devcontainers/python:3.11
 
-# Install R
-RUN apt-get update && \
-    apt-get install -y r-base
+# System deps for common R packages (readr/stringr/tidyr/ggplot2, etc.)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    r-base \
+    r-base-dev \
+    build-essential \
+    libcurl4-openssl-dev \
+    libssl-dev \
+    libxml2-dev \
+    && rm -rf /var/lib/apt/lists/*
 
-# Install R packages
-RUN R -e "install.packages(c('tidyverse','viridisLite'), repos='https://cloud.r-project.org/')"
+# Install only the R packages you actually use
+RUN R -e "install.packages(c('dplyr','ggplot2','readr','tidyr','stringr','forcats','viridisLite','scales'), repos='https://cloud.r-project.org/', Ncpus=parallel::detectCores())"
