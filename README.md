@@ -38,15 +38,6 @@ genomic-variant-analysis/
 | Python | 3.8+ |
 | R | 4.0+ |
 
-**Python packages** (`pip install -r requirements.txt`):
-- `pandas >= 1.5.0`
-
-**R packages** (`Rscript install_r_packages.R`):
-- `tidyverse` (dplyr, ggplot2, readr, tidyr, stringr, forcats)
-- `viridisLite` (bundled with ggplot2)
-
----
-
 ## Installation
 
 ```bash
