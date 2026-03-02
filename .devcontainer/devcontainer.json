@@ -1,0 +1,7 @@
+{
+  "name": "genomic-variant-analysis",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "postCreateCommand": "pip install -r requirements.txt"
+}
